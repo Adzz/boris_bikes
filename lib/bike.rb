@@ -4,7 +4,7 @@ def initialize
   @working = true
 end
 
-def report
+def report!
   @working = false
 end
 

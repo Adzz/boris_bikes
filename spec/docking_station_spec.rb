@@ -34,9 +34,26 @@ end
 
   it 'releases working bikes' do
     bike = Bike.new
-    #bike = subject.release_bike
-    expect(bike).to be_working
+    subject.dock(bike)
+    new_bike = subject.release_bike
+    expect(new_bike).to be_working
   end
+
+ it "doesn't release a broken bikes" do
+   bike = Bike.new
+   bike.report!
+   subject.dock(bike)
+   expect{subject.release_bike}.to raise_error 'There are no working bikes!'
+ end
+
+it "doesn't releases a working bike instead of a brokenn when available" do
+  bike = Bike.new
+  subject.dock(bike)
+  bike_2 = Bike.new
+  bike_2.report!
+  subject.dock(bike_2)
+  expect(subject.release_bike.working?).to eq true
+end
 
 
   it 'docks something' do
@@ -54,7 +71,7 @@ end
     expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
   end
 
-  it {is_expected.to respond_to(:report_broken)}
+
 
   it { is_expected.to respond_to(:dock).with(1).argument }
 
