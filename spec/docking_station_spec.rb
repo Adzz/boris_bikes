@@ -54,6 +54,7 @@ end
     expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
   end
 
+  it {is_expected.to respond_to(:report_broken)}
 
   it { is_expected.to respond_to(:dock).with(1).argument }
 
